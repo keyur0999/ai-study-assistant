@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Study Assistant</title>
+    <!-- CSS references go up one level since we are in the 'pages' folder -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-icon">🧠</span>
+            <h2>Study Assistant</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">🏠 Dashboard Home</a></li>
+            <li><a href="#">📚 Student Learning</a></li>
+            <li><a href="#">📄 PDF Learning</a></li>
+            <li><a href="#">📝 Skills Quiz</a></li>
+            <li><a href="#">📈 History / Progress</a></li>
+            <li><a href="#">⚙️ Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#" id="logoutBtn" style="color: var(--danger);">🚪 Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- HEADER -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search courses, PDFs...">
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notification-icon">🔔</div>
+                <div class="profile-menu">
+                    <div class="avatar">S</div>
+                    <span>Student</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD GRID -->
+        <main class="dashboard-content">
+            
+            <!-- Center Column (Sections 1, 2, 3) -->
+            <div class="content-main">
+                
+                <!-- Welcome & Stats -->
+                <section class="welcome-section">
+                    <h1>Welcome back, Student! 👋</h1>
+                    <p>Ready to continue learning?</p>
+                </section>
+                
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Study Time</h4>
+                        <div class="value">12.5 hrs</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Skills Learning</h4>
+                        <div class="value">64%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Quiz Average</h4>
+                        <div class="value">82%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Current Streak</h4>
+                        <div class="value">7 days</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 1: Student Learning -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <h3>Student Learning</h3>
+                        <p>Learn programming and technical skills at your own pace.</p>
+                    </div>
+                    
+                    <div class="progress-list">
+                        <!-- Note: Data is currently hardcoded mock data to be replaced by API later -->
+                        <div class="progress-item">
+                            <div class="progress-label"><span>Python</span> <span>64%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width: 64%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label"><span>C</span> <span>72%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width: 72%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label"><span>C++</span> <span>42%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width: 42%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label"><span>Java</span> <span>25%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width: 25%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label"><span>SQL</span> <span>81%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width: 81%;"></div></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary action-btn">Continue Learning</button>
+                </section>
+
+                <!-- SECTION 2: PDF Learning -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <h3>Learn From Your PDFs</h3>
+                        <p>Upload your study material and use AI to understand it.</p>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li>Upload and analyze PDFs</li>
+                        <li>Ask questions and get AI answers</li>
+                        <li>Generate automatic quizzes from documents</li>
+                    </ul>
+
+                    <button class="btn btn-primary action-btn">Open PDF Learning</button>
+                </section>
+
+                <!-- SECTION 3: Skills Quiz -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <h3>Skills Quiz</h3>
+                        <p>Test your knowledge with topic-specific assessments.</p>
+                    </div>
+                    
+                    <div class="quiz-grid">
+                        <div class="quiz-card">
+                            <span class="badge">Medium</span>
+                            <h4>Python Quiz</h4>
+                            <p>10 Questions<br>Best Score: 82%</p>
+                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+                        </div>
+                        <div class="quiz-card">
+                            <span class="badge">Hard</span>
+                            <h4>C++ Quiz</h4>
+                            <p>15 Questions<br>Best Score: 60%</p>
+                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+                        </div>
+                        <div class="quiz-card">
+                            <span class="badge">Easy</span>
+                            <h4>SQL Quiz</h4>
+                            <p>8 Questions<br>Best Score: 95%</p>
+                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column (History & Progress Sidebar) -->
+            <aside class="content-aside">
+                <section class="section-card">
+                    <div class="section-header">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <ul class="activity-list">
+                        <li class="success">Completed Python Quiz — 8/10</li>
+                        <li class="info">Studied C++ Classes</li>
+                        <li class="info">Uploaded DBMS Notes.pdf</li>
+                        <li class="info">Studied Python Functions</li>
+                    </ul>
+                </section>
+
+                <section class="section-card">
+                    <div class="section-header">
+                        <h3>Current Focus</h3>
+                    </div>
+                    <div class="current-topics">
+                        <div class="topic">
+                            <h5><span>Python</span> <span>64%</span></h5>
+                            <p>Current topic: Functions</p>
+                        </div>
+                        <div class="topic">
+                            <h5><span>C++</span> <span>42%</span></h5>
+                            <p>Current topic: Classes</p>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- JS references go up one level -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
