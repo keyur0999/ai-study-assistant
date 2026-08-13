@@ -1,36 +1,129 @@
-# AI Study Assistant
+🤖 AI Study Assistant
 
-An AI-powered personal study assistant that helps students understand
-their study material, ask questions, generate quizzes, evaluate answers,
-and identify areas for improvement.
+An AI-powered study assistant that helps students learn from their own study materials using AI and Retrieval-Augmented Generation (RAG).
 
-## Project Status
+The project is being developed step-by-step, starting with a simple MVP and gradually adding more advanced AI features.
 
-🚧 Currently in development.
+---
 
-## Goals
+🎯 Project Goal
 
-- Learn and implement RAG
-- Build an AI-powered study chat
-- Generate quizzes from study material
-- Evaluate student answers
+The main goal is to build an AI tutor that can:
+
+- Upload and understand study materials
+- Answer questions based on uploaded documents
+- Generate quizzes
+- Evaluate answers
 - Track learning progress
-- Eventually implement personalized study planning
-- Explore agentic AI using LangGraph
+- Identify weak topics
+- Create personalized study plans
 
-## Planned Tech Stack
+---
+
+🚀 Current MVP
+
+The first version focuses on:
+
+Upload PDF
+    ↓
+Extract Text
+    ↓
+Create Embeddings
+    ↓
+Store in Vector Database
+    ↓
+Ask Questions
+    ↓
+Retrieve Relevant Content
+    ↓
+Generate AI Answer
+
+The initial target is:
+
+PDF → RAG → AI Study Chat
+
+---
+
+🛠️ Technology Stack
+
+Frontend
+
+- React
+- JavaScript
+- HTML/CSS
+
+Backend
 
 - Python
 - FastAPI
-- React
+
+Database
+
 - PostgreSQL
+
+AI
+
+- OpenAI / Gemini API
+- Embeddings
+- RAG
+
+Vector Database
+
 - ChromaDB
+
+AI Frameworks
+
 - LangChain
-- LangGraph
-- Gemini / OpenAI APIs
+- LangGraph (later)
 
-## Development Approach
+---
 
-This project is being built incrementally as a learning and portfolio
-project. The focus is on understanding the underlying concepts rather
-than simply integrating pre-built solutions.
+📂 Project Structure
+
+ai-study-assistant/
+│
+├── frontend/
+│
+├── backend/
+│
+├── docs/
+│
+├── .gitignore
+├── README.md
+└── LICENSE
+
+The structure will evolve as the project grows.
+
+---
+
+🧠 How It Works
+
+The system will process uploaded study materials and make their content searchable.
+
+When a student asks a question:
+
+Student Question
+       ↓
+Create Query Embedding
+       ↓
+Search Vector Database
+       ↓
+Retrieve Relevant Content
+       ↓
+Send Context + Question to LLM
+       ↓
+Generate Answer
+
+This allows the AI to answer questions using information from the student's uploaded study material.
+
+---
+
+📌 Current Status
+
+🚧 Currently in development
+
+Current focus:
+
+Frontend → FastAPI Backend → PDF Processing → RAG
+
+More features will be added as the project develops.
