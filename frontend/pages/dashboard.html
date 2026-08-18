@@ -4,198 +4,640 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - AI Study Assistant</title>
-    <!-- CSS references go up one level since we are in the 'pages' folder -->
+    <meta name="description" content="AI Study Assistant Dashboard - Interactive learning, document analysis, and skill quizzes.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body class="dashboard-body">
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
     <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
         <div class="sidebar-header">
-            <span class="logo-icon">🧠</span>
-            <h2>Study Assistant</h2>
+            <div class="brand-side">
+                <span class="logo-icon">🧠</span>
+                <h2>Study AI</h2>
+            </div>
+            <button id="sidebarCloseBtn" class="sidebar-close-btn" aria-label="Close navigation sidebar">&times;</button>
         </div>
-        <ul class="nav-links">
-            <li><a href="#" class="active">🏠 Dashboard Home</a></li>
-            <li><a href="#">📚 Student Learning</a></li>
-            <li><a href="#">📄 PDF Learning</a></li>
-            <li><a href="#">📝 Skills Quiz</a></li>
-            <li><a href="#">📈 History / Progress</a></li>
-            <li><a href="#">⚙️ Settings</a></li>
+
+        <ul class="nav-links" id="sidebarNavLinks">
+            <li><a href="#welcomeSection" class="nav-link active" data-target="dashboardHome"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
+            <li><a href="#studentLearningSection" class="nav-link" data-target="studentLearning"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
+            <li><a href="#pdfLearningSection" class="nav-link" data-target="pdfLearning"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
+            <li><a href="#skillsQuizSection" class="nav-link" data-target="skillsQuiz"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
+            <li><a href="#activityAside" class="nav-link" data-target="activitySection"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
+            <li><a href="javascript:void(0)" id="navSettingsBtn" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
         </ul>
+
         <div class="sidebar-footer">
-            <a href="#" id="logoutBtn" style="color: var(--danger);">🚪 Logout</a>
+            <div class="user-quick-info">
+                <div class="avatar avatar-sm" id="sidebarAvatar">S</div>
+                <div class="user-meta">
+                    <span class="user-name" id="sidebarUserName">Student</span>
+                    <span class="user-status">🟢 Online</span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-link">
+                <span>🚪</span> <span>Sign Out</span>
+            </a>
         </div>
     </aside>
 
     <!-- MAIN CONTENT WRAPPER -->
     <div class="main-wrapper">
         
-        <!-- HEADER -->
+        <!-- TOP NAVBAR -->
         <header class="top-nav">
             <div class="nav-left">
-                <button class="menu-toggle" id="menuToggle">☰</button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar menu">
+                    <span>☰</span>
+                </button>
                 <div class="search-bar">
-                    <input type="text" placeholder="Search courses, PDFs...">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="dashboardSearchInput" placeholder="Search courses, quizzes, notes..." autocomplete="off">
+                    <button id="searchClearBtn" class="search-clear-btn" style="display: none;" aria-label="Clear search">&times;</button>
                 </div>
             </div>
+
             <div class="nav-right">
-                <div class="notification-icon">🔔</div>
-                <div class="profile-menu">
-                    <div class="avatar">S</div>
-                    <span>Student</span>
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="nav-icon-btn" id="notificationBtn" aria-label="View notifications" aria-expanded="false">
+                        <span class="bell-icon">🔔</span>
+                        <span class="badge-dot" id="unreadBadge">3</span>
+                    </button>
+
+                    <div class="dropdown-menu notification-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+                        </div>
+                        <ul class="notification-list" id="notificationList">
+                            <li class="unread">
+                                <div class="notif-icon">🎯</div>
+                                <div class="notif-body">
+                                    <p><strong>Streak Maintained!</strong> You completed 7 consecutive study days.</p>
+                                    <span class="notif-time">10m ago</span>
+                                </div>
+                            </li>
+                            <li class="unread">
+                                <div class="notif-icon">📄</div>
+                                <div class="notif-body">
+                                    <p><strong>AI PDF Ready:</strong> "DBMS Notes.pdf" generated 12 new flashcards.</p>
+                                    <span class="notif-time">2h ago</span>
+                                </div>
+                            </li>
+                            <li class="unread">
+                                <div class="notif-icon">💡</div>
+                                <div class="notif-body">
+                                    <p><strong>Quiz Recommended:</strong> Try the SQL assessment to level up.</p>
+                                    <span class="notif-time">1d ago</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Profile Menu Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="profile-menu-btn" id="profileBtn" aria-label="Open profile menu" aria-expanded="false">
+                        <div class="avatar" id="topNavAvatar">S</div>
+                        <span class="profile-name" id="topNavUserName">Student</span>
+                        <span class="chevron">▾</span>
+                    </button>
+
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <div class="profile-card-header">
+                            <div class="avatar avatar-lg" id="menuAvatar">S</div>
+                            <div class="profile-details">
+                                <strong id="menuUserName">Student</strong>
+                                <span id="menuUserEmail">student@example.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <ul class="dropdown-links">
+                            <li><a href="javascript:void(0)" id="profileSettingsLink"><span class="menu-ico">⚙️</span> Study Settings</a></li>
+                            <li><a href="javascript:void(0)" id="profileThemeToggle"><span class="menu-ico">🌓</span> Switch Theme</a></li>
+                        </ul>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer">
+                            <button id="menuLogoutBtn" class="btn btn-sm btn-outline btn-block" style="color: var(--danger); border-color: var(--danger);">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- DASHBOARD GRID -->
+        <!-- DASHBOARD CONTENT -->
         <main class="dashboard-content">
             
             <!-- Center Column (Sections 1, 2, 3) -->
             <div class="content-main">
                 
-                <!-- Welcome & Stats -->
-                <section class="welcome-section">
-                    <h1>Welcome back, Student! 👋</h1>
-                    <p>Ready to continue learning?</p>
+                <!-- Welcome Banner -->
+                <section class="welcome-section" id="welcomeSection">
+                    <div class="welcome-text-content">
+                        <h1 id="welcomeGreeting">Welcome back, Student! 👋</h1>
+                        <p id="welcomeSubtext">You are on track with your study goals. Pick up where you left off!</p>
+                    </div>
+                    <div class="quick-action-pill">
+                        <span>🔥 <strong>7 Day Streak!</strong> Keep going</span>
+                    </div>
                 </section>
                 
-                <section class="stats-grid">
+                <!-- Stats Grid -->
+                <section class="stats-grid" id="statsGrid">
                     <div class="stat-card">
-                        <h4>Study Time</h4>
-                        <div class="value">12.5 hrs</div>
+                        <div class="stat-icon stat-purple">⏱️</div>
+                        <div class="stat-info">
+                            <h4>Study Time</h4>
+                            <div class="value" id="statStudyTime">12.5 hrs</div>
+                            <span class="stat-trend positive">↑ +2.5 hrs this week</span>
+                        </div>
                     </div>
                     <div class="stat-card">
-                        <h4>Skills Learning</h4>
-                        <div class="value">64%</div>
+                        <div class="stat-icon stat-blue">📊</div>
+                        <div class="stat-info">
+                            <h4>Skills Learning</h4>
+                            <div class="value" id="statSkillsAvg">64%</div>
+                            <span class="stat-trend positive">↑ +5% mastered</span>
+                        </div>
                     </div>
                     <div class="stat-card">
-                        <h4>Quiz Average</h4>
-                        <div class="value">82%</div>
+                        <div class="stat-icon stat-green">🏆</div>
+                        <div class="stat-info">
+                            <h4>Quiz Average</h4>
+                            <div class="value" id="statQuizAvg">82%</div>
+                            <span class="stat-trend positive">↑ Top 15% tier</span>
+                        </div>
                     </div>
                     <div class="stat-card">
-                        <h4>Current Streak</h4>
-                        <div class="value">7 days</div>
+                        <div class="stat-icon stat-orange">🔥</div>
+                        <div class="stat-info">
+                            <h4>Current Streak</h4>
+                            <div class="value" id="statStreak">7 days</div>
+                            <span class="stat-trend">⚡ Personal Best</span>
+                        </div>
                     </div>
                 </section>
 
                 <!-- SECTION 1: Student Learning -->
-                <section class="section-card">
-                    <div class="section-header">
-                        <h3>Student Learning</h3>
-                        <p>Learn programming and technical skills at your own pace.</p>
+                <section class="section-card" id="studentLearningSection">
+                    <div class="section-header-flex">
+                        <div>
+                            <div class="tag-badge">Core Courses</div>
+                            <h3>Student Learning Tracks</h3>
+                            <p>Structured curriculum to master modern programming languages and data systems.</p>
+                        </div>
+                        <button class="btn btn-primary" id="openCourseExplorerBtn">
+                            <span>🚀 Explore Modules</span>
+                        </button>
                     </div>
                     
-                    <div class="progress-list">
-                        <!-- Note: Data is currently hardcoded mock data to be replaced by API later -->
-                        <div class="progress-item">
-                            <div class="progress-label"><span>Python</span> <span>64%</span></div>
-                            <div class="progress-track"><div class="progress-fill" style="width: 64%;"></div></div>
+                    <div class="progress-list" id="courseProgressList">
+                        <div class="progress-item" data-search="python programming functions data">
+                            <div class="progress-label">
+                                <span class="course-title">🐍 Python 3.12 (Foundations & OOP)</span>
+                                <span class="course-pct">64%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 64%; background: linear-gradient(90deg, #4F46E5, #06B6D4);"></div>
+                            </div>
                         </div>
-                        <div class="progress-item">
-                            <div class="progress-label"><span>C</span> <span>72%</span></div>
-                            <div class="progress-track"><div class="progress-fill" style="width: 72%;"></div></div>
+                        <div class="progress-item" data-search="c language memory pointers">
+                            <div class="progress-label">
+                                <span class="course-title">⚙️ C Programming (Memory & Pointers)</span>
+                                <span class="course-pct">72%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 72%; background: linear-gradient(90deg, #10B981, #06B6D4);"></div>
+                            </div>
                         </div>
-                        <div class="progress-item">
-                            <div class="progress-label"><span>C++</span> <span>42%</span></div>
-                            <div class="progress-track"><div class="progress-fill" style="width: 42%;"></div></div>
+                        <div class="progress-item" data-search="cpp c++ data structures classes algorithms">
+                            <div class="progress-label">
+                                <span class="course-title">⚡ C++ (OOP & STL Data Structures)</span>
+                                <span class="course-pct">42%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 42%; background: linear-gradient(90deg, #F59E0B, #EF4444);"></div>
+                            </div>
                         </div>
-                        <div class="progress-item">
-                            <div class="progress-label"><span>Java</span> <span>25%</span></div>
-                            <div class="progress-track"><div class="progress-fill" style="width: 25%;"></div></div>
+                        <div class="progress-item" data-search="java enterprise backend multithreading">
+                            <div class="progress-label">
+                                <span class="course-title">☕ Java Core (Multithreading & Collections)</span>
+                                <span class="course-pct">25%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 25%; background: linear-gradient(90deg, #EC4899, #8B5CF6);"></div>
+                            </div>
                         </div>
-                        <div class="progress-item">
-                            <div class="progress-label"><span>SQL</span> <span>81%</span></div>
-                            <div class="progress-track"><div class="progress-fill" style="width: 81%;"></div></div>
+                        <div class="progress-item" data-search="sql database queries joins indexing schema">
+                            <div class="progress-label">
+                                <span class="course-title">🗄️ SQL & Relational Databases</span>
+                                <span class="course-pct">81%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 81%; background: linear-gradient(90deg, #10B981, #3B82F6);"></div>
+                            </div>
                         </div>
                     </div>
-
-                    <button class="btn btn-primary action-btn">Continue Learning</button>
                 </section>
 
                 <!-- SECTION 2: PDF Learning -->
-                <section class="section-card">
-                    <div class="section-header">
-                        <h3>Learn From Your PDFs</h3>
-                        <p>Upload your study material and use AI to understand it.</p>
+                <section class="section-card" id="pdfLearningSection">
+                    <div class="section-header-flex">
+                        <div>
+                            <div class="tag-badge">AI Document Assistant</div>
+                            <h3>Learn From Your PDFs & Notes</h3>
+                            <p>Upload lecture slides, textbooks, or notes to get AI summaries, Q&A, and automatic flashcards.</p>
+                        </div>
+                        <button class="btn btn-primary" id="openPdfWorkspaceBtn">
+                            <span>📄 Open PDF Workspace</span>
+                        </button>
                     </div>
                     
-                    <ul class="feature-list">
-                        <li>Upload and analyze PDFs</li>
-                        <li>Ask questions and get AI answers</li>
-                        <li>Generate automatic quizzes from documents</li>
-                    </ul>
+                    <div class="pdf-feature-grid">
+                        <div class="pdf-feature-box">
+                            <div class="feature-icon">🔍</div>
+                            <h4>Deep Semantic Analysis</h4>
+                            <p>Instant breakdown of complex formulas, code snippets, and key definitions.</p>
+                        </div>
+                        <div class="pdf-feature-box">
+                            <div class="feature-icon">💬</div>
+                            <h4>Interactive AI Q&A</h4>
+                            <p>Ask questions in plain English and receive instant answers with exact page citations.</p>
+                        </div>
+                        <div class="pdf-feature-box">
+                            <div class="feature-icon">⚡</div>
+                            <h4>Auto-Generated Quizzes</h4>
+                            <p>Turn any chapter or document section into an interactive practice quiz instantly.</p>
+                        </div>
+                    </div>
 
-                    <button class="btn btn-primary action-btn">Open PDF Learning</button>
+                    <div class="recent-docs-bar">
+                        <span class="docs-label">Active Documents:</span>
+                        <div class="doc-chips" id="docChipsList">
+                            <button class="doc-chip active" data-doc="dbms">📄 DBMS_Unit_1_Notes.pdf</button>
+                            <button class="doc-chip" data-doc="ds">📄 Data_Structures_Guide.pdf</button>
+                            <button class="doc-chip" data-doc="python">📄 Python_Advanced_Cheatsheet.pdf</button>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- SECTION 3: Skills Quiz -->
-                <section class="section-card">
-                    <div class="section-header">
-                        <h3>Skills Quiz</h3>
-                        <p>Test your knowledge with topic-specific assessments.</p>
+                <section class="section-card" id="skillsQuizSection">
+                    <div class="section-header-flex">
+                        <div>
+                            <div class="tag-badge">Skill Assessments</div>
+                            <h3>Interactive Skill Quizzes</h3>
+                            <p>Assess your mastery, identify weak topics, and earn skill badges with real-time scoring.</p>
+                        </div>
                     </div>
                     
-                    <div class="quiz-grid">
-                        <div class="quiz-card">
-                            <span class="badge">Medium</span>
-                            <h4>Python Quiz</h4>
-                            <p>10 Questions<br>Best Score: 82%</p>
-                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+                    <div class="quiz-grid" id="quizCardsGrid">
+                        <!-- Python Quiz Card -->
+                        <div class="quiz-card" data-search="python quiz programming variables functions">
+                            <div class="quiz-card-top">
+                                <span class="badge badge-medium">Medium</span>
+                                <span class="quiz-icon">🐍</span>
+                            </div>
+                            <h4>Python Core Quiz</h4>
+                            <p class="quiz-desc">Functions, decorators, slicing, and memory references.</p>
+                            <div class="quiz-meta">
+                                <span>📋 5 Questions</span>
+                                <span>🏆 Best: <strong>82%</strong></span>
+                            </div>
+                            <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="python">
+                                Start Python Quiz
+                            </button>
                         </div>
-                        <div class="quiz-card">
-                            <span class="badge">Hard</span>
-                            <h4>C++ Quiz</h4>
-                            <p>15 Questions<br>Best Score: 60%</p>
-                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+
+                        <!-- C++ Quiz Card -->
+                        <div class="quiz-card" data-search="c++ cpp quiz pointers memory classes stl">
+                            <div class="quiz-card-top">
+                                <span class="badge badge-hard">Hard</span>
+                                <span class="quiz-icon">⚡</span>
+                            </div>
+                            <h4>C++ OOP & Memory</h4>
+                            <p class="quiz-desc">Smart pointers, templates, inheritance, and STL containers.</p>
+                            <div class="quiz-meta">
+                                <span>📋 5 Questions</span>
+                                <span>🏆 Best: <strong>60%</strong></span>
+                            </div>
+                            <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="cpp">
+                                Start C++ Quiz
+                            </button>
                         </div>
-                        <div class="quiz-card">
-                            <span class="badge">Easy</span>
-                            <h4>SQL Quiz</h4>
-                            <p>8 Questions<br>Best Score: 95%</p>
-                            <button class="btn btn-primary btn-block action-btn">Start Quiz</button>
+
+                        <!-- SQL Quiz Card -->
+                        <div class="quiz-card" data-search="sql database queries joins subqueries indexing">
+                            <div class="quiz-card-top">
+                                <span class="badge badge-easy">Easy</span>
+                                <span class="quiz-icon">🗄️</span>
+                            </div>
+                            <h4>SQL & Relational DB</h4>
+                            <p class="quiz-desc">JOIN types, GROUP BY, subqueries, indexing, and ACID.</p>
+                            <div class="quiz-meta">
+                                <span>📋 5 Questions</span>
+                                <span>🏆 Best: <strong>95%</strong></span>
+                            </div>
+                            <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="sql">
+                                Start SQL Quiz
+                            </button>
                         </div>
                     </div>
                 </section>
 
             </div>
 
-            <!-- Right Column (History & Progress Sidebar) -->
-            <aside class="content-aside">
-                <section class="section-card">
+            <!-- Right Column (History, Focus & Goals) -->
+            <aside class="content-aside" id="activityAside">
+                
+                <!-- Recent Activity Card -->
+                <section class="section-card aside-card">
                     <div class="section-header">
                         <h3>Recent Activity</h3>
+                        <p>Your latest learning actions</p>
                     </div>
-                    <ul class="activity-list">
-                        <li class="success">Completed Python Quiz — 8/10</li>
-                        <li class="info">Studied C++ Classes</li>
-                        <li class="info">Uploaded DBMS Notes.pdf</li>
-                        <li class="info">Studied Python Functions</li>
+                    <ul class="activity-list" id="activityList">
+                        <li class="success" data-search="python quiz score">
+                            <div class="act-details">
+                                <strong>Completed Python Quiz</strong>
+                                <span>Score: 8/10 (80%)</span>
+                            </div>
+                            <span class="act-time">1h ago</span>
+                        </li>
+                        <li class="info" data-search="cpp classes studied">
+                            <div class="act-details">
+                                <strong>Studied C++ Classes</strong>
+                                <span>Module 3: Constructors</span>
+                            </div>
+                            <span class="act-time">3h ago</span>
+                        </li>
+                        <li class="info" data-search="pdf dbms uploaded">
+                            <div class="act-details">
+                                <strong>Analyzed DBMS Notes.pdf</strong>
+                                <span>Generated 12 flashcards</span>
+                            </div>
+                            <span class="act-time">Yesterday</span>
+                        </li>
+                        <li class="info" data-search="python functions">
+                            <div class="act-details">
+                                <strong>Practiced Python Functions</strong>
+                                <span>Completed 4 exercises</span>
+                            </div>
+                            <span class="act-time">2d ago</span>
+                        </li>
                     </ul>
                 </section>
 
-                <section class="section-card">
+                <!-- Current Focus Card -->
+                <section class="section-card aside-card">
                     <div class="section-header">
                         <h3>Current Focus</h3>
+                        <p>High priority objectives</p>
                     </div>
                     <div class="current-topics">
                         <div class="topic">
-                            <h5><span>Python</span> <span>64%</span></h5>
-                            <p>Current topic: Functions</p>
+                            <h5><span>🐍 Python Functions & OOP</span> <span>64%</span></h5>
+                            <div class="progress-track"><div class="progress-fill" style="width: 64%;"></div></div>
+                            <p class="topic-sub">Next: Closures & Decorators</p>
                         </div>
                         <div class="topic">
-                            <h5><span>C++</span> <span>42%</span></h5>
-                            <p>Current topic: Classes</p>
+                            <h5><span>⚡ C++ Memory Management</span> <span>42%</span></h5>
+                            <div class="progress-track"><div class="progress-fill" style="width: 42%; background-color: var(--warning);"></div></div>
+                            <p class="topic-sub">Next: Smart Pointers (std::unique_ptr)</p>
                         </div>
                     </div>
                 </section>
+
+                <!-- Daily Study Checklist -->
+                <section class="section-card aside-card">
+                    <div class="section-header">
+                        <h3>Today's Study Checklist</h3>
+                        <p>Quick micro-goals</p>
+                    </div>
+                    <div class="checklist-items" id="studyChecklist">
+                        <label class="checkbox-label check-task">
+                            <input type="checkbox" checked>
+                            <span>Complete 1 Daily Practice Quiz</span>
+                        </label>
+                        <label class="checkbox-label check-task">
+                            <input type="checkbox">
+                            <span>Review PDF Summary for DBMS</span>
+                        </label>
+                        <label class="checkbox-label check-task">
+                            <input type="checkbox">
+                            <span>Solve 2 C++ Pointer Exercises</span>
+                        </label>
+                    </div>
+                </section>
+
             </aside>
 
         </main>
     </div>
 
-    <!-- JS references go up one level -->
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE MODAL 1: LIVE QUIZ ENGINE -->
+    <!-- ================================================================= -->
+    <div id="quizModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="quiz-header-info">
+                    <h3 id="quizModalTitle">📝 Python Quiz</h3>
+                    <span class="quiz-timer-pill" id="quizTimer">⏱️ 02:00</span>
+                </div>
+                <button class="modal-close" id="closeQuizModal" aria-label="Close quiz">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="quizModalBody">
+                <!-- Question View -->
+                <div id="quizQuestionView">
+                    <div class="quiz-meta-bar">
+                        <span id="quizQuestionCounter">Question 1 of 5</span>
+                        <span class="badge badge-medium" id="quizTopicBadge">Python</span>
+                    </div>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quizProgressFill" style="width: 20%;"></div>
+                    </div>
+
+                    <h4 class="quiz-question-text" id="quizQuestionText">Loading question...</h4>
+
+                    <div class="quiz-options-container" id="quizOptionsContainer">
+                        <!-- Dynamic options will be rendered here -->
+                    </div>
+
+                    <div id="quizFeedbackBox" class="quiz-feedback-box" style="display: none;"></div>
+                </div>
+
+                <!-- Results View (Hidden initially) -->
+                <div id="quizResultsView" style="display: none;" class="quiz-results-container">
+                    <div class="results-score-circle">
+                        <span class="score-number" id="resultScorePct">80%</span>
+                        <span class="score-label" id="resultScoreFraction">4 / 5 Correct</span>
+                    </div>
+                    <h3 id="resultTitle">Great Job! 🎉</h3>
+                    <p id="resultFeedbackText">You demonstrated solid understanding of this topic.</p>
+                    <div class="results-stats-row">
+                        <div class="result-stat-box">
+                            <span>Accuracy</span>
+                            <strong id="resultAccuracy">80%</strong>
+                        </div>
+                        <div class="result-stat-box">
+                            <span>Time Taken</span>
+                            <strong id="resultTimeTaken">45s</strong>
+                        </div>
+                        <div class="result-stat-box">
+                            <span>Streak</span>
+                            <strong>+1 Day ⚡</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="quizModalFooter">
+                <button type="button" class="btn btn-secondary" id="quitQuizBtn">Quit</button>
+                <button type="button" class="btn btn-primary" id="quizNextBtn" disabled>Next Question →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE MODAL 2: PDF AI STUDY WORKSPACE -->
+    <!-- ================================================================= -->
+    <div id="pdfModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pdfModalTitle">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="pdf-modal-title">
+                    <h3 id="pdfModalTitle">📄 AI Document Study Workspace</h3>
+                    <span class="badge badge-easy">Active: DBMS_Unit_1_Notes.pdf</span>
+                </div>
+                <button class="modal-close" id="closePdfModal" aria-label="Close workspace">&times;</button>
+            </div>
+
+            <div class="modal-body pdf-workspace-layout">
+                <!-- Left: Document Context & Quick Insights -->
+                <div class="pdf-doc-panel">
+                    <div class="pdf-uploader-box" id="pdfDropZone">
+                        <span class="upload-icon">📁</span>
+                        <p><strong>Click or Drag & Drop PDF</strong></p>
+                        <small>Supported: .pdf, .docx, .txt (Max 25MB)</small>
+                        <input type="file" id="pdfFileInput" accept=".pdf,.txt,.docx" style="display: none;">
+                    </div>
+
+                    <div class="doc-summary-box">
+                        <h4>📌 Key Concepts Summary</h4>
+                        <ul class="summary-bullets" id="docSummaryBullets">
+                            <li><strong>ACID Properties:</strong> Atomicity, Consistency, Isolation, Durability.</li>
+                            <li><strong>Normalization:</strong> 1NF, 2NF, 3NF, and BCNF reduction of redundancy.</li>
+                            <li><strong>B+ Trees:</strong> Balanced indexing structure for high throughput disk IO.</li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-prompt-tags">
+                        <span class="prompt-tag-label">Instant AI Actions:</span>
+                        <button class="prompt-chip" data-query="Explain ACID properties with an ATM banking transaction example">💡 Explain ACID with real example</button>
+                        <button class="prompt-chip" data-query="Generate 3 quiz questions based on this document">📝 Generate 3 flash questions</button>
+                        <button class="prompt-chip" data-query="Summarize B+ Tree indexing in 3 bullet points">⚡ Summarize B+ Trees</button>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive AI Study Chat -->
+                <div class="pdf-chat-panel">
+                    <div class="chat-messages" id="pdfChatMessages">
+                        <div class="chat-msg ai-msg">
+                            <div class="msg-avatar">🤖</div>
+                            <div class="msg-content">
+                                <p>Hello! I have indexed <strong>DBMS_Unit_1_Notes.pdf</strong> (34 pages). Ask me any question, request code snippets, or ask for simple analogies!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="chat-input-row" id="pdfChatForm">
+                        <input type="text" id="pdfChatInput" placeholder="Ask AI about this document..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary" id="pdfSendBtn">Ask AI</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE MODAL 3: COURSE MODULES & CODE RUNNER -->
+    <!-- ================================================================= -->
+    <div id="courseModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="courseModalTitle">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <h3 id="courseModalTitle">📚 Interactive Learning Modules</h3>
+                <button class="modal-close" id="closeCourseModal" aria-label="Close modules">&times;</button>
+            </div>
+            
+            <div class="modal-body course-modal-body">
+                <div class="course-track-tabs" id="courseTrackTabs">
+                    <button class="track-tab active" data-course="python">🐍 Python 3</button>
+                    <button class="track-tab" data-course="c">⚙️ C Language</button>
+                    <button class="track-tab" data-course="cpp">⚡ C++ STL</button>
+                    <button class="track-tab" data-course="sql">🗄️ SQL DB</button>
+                </div>
+
+                <div class="course-lesson-view" id="courseLessonView">
+                    <!-- Dynamically populated lesson view -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeCourseBtn">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE MODAL 4: STUDY SETTINGS -->
+    <!-- ================================================================= -->
+    <div id="settingsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="settingsModalTitle">⚙️ Study Settings</h3>
+                <button class="modal-close" id="closeSettingsModal" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="settingsNameInput">Display Name</label>
+                    <input type="text" id="settingsNameInput" placeholder="Student Name">
+                </div>
+                <div class="form-group">
+                    <label for="settingsGoalInput">Weekly Study Target (Hours)</label>
+                    <input type="number" id="settingsGoalInput" min="1" max="50" value="15">
+                </div>
+                <div class="form-group">
+                    <label>Interface Theme</label>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button type="button" class="btn btn-secondary btn-block theme-select-btn" data-theme-val="light">☀️ Light</button>
+                        <button type="button" class="btn btn-secondary btn-block theme-select-btn" data-theme-val="dark">🌙 Dark</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelSettingsBtn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveSettingsBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
     <script src="../js/auth.js"></script>
     <script src="../js/dashboard.js"></script>
 </body>
