@@ -631,3 +631,27 @@ textarea::placeholder {
 .theme-toggle-fixed:hover {
     transform: rotate(15deg) scale(1.08);
 }
+
+/* Accessibility and small-screen polish for the authentication screens. */
+:where(button, a, input):focus-visible {
+    outline: 3px solid var(--primary, #6366f1);
+    outline-offset: 3px;
+}
+
+.error-message { overflow-wrap: anywhere; }
+
+@media (max-width: 480px) {
+    .login-container { padding: 1rem; }
+    .login-card { width: 100%; padding: 1.25rem; }
+    .modal-backdrop { padding: .5rem; }
+    .modal-card { max-width: 100%; max-height: calc(100dvh - 1rem); overflow-y: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

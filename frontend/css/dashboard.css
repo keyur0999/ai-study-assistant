@@ -1415,3 +1415,450 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* --- BACKEND CONNECTION STATUS BADGE --- */
+.backend-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    transition: all 0.2s ease;
+}
+
+.backend-status-badge .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 8px #10B981;
+    animation: pulseDot 2s infinite ease-in-out;
+}
+
+.backend-status-badge.offline {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+.backend-status-badge.offline .status-dot {
+    background-color: #EF4444;
+    box-shadow: 0 0 8px #EF4444;
+    animation: none;
+}
+
+@keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+/* ==========================================================================
+   NEW PAGES STYLING (COURSES, PDF, QUIZ, ANALYTICS, SETTINGS)
+   ========================================================================== */
+
+/* --- PAGE HEADER & BREADCRUMBS --- */
+.page-header-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.75rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.page-header-banner h1 {
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-header-banner p {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    margin-top: 0.35rem;
+}
+
+/* --- CODE STUDIO LAYOUT (courses.html) --- */
+.code-studio-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+    .code-studio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.curriculum-sidebar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    height: fit-content;
+}
+
+.curriculum-sidebar h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.module-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.module-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.module-nav-item:hover, .module-nav-item.active {
+    background: rgba(79, 70, 229, 0.08);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.code-studio-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.code-editor-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.code-editor-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.editor-lang-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.code-textarea {
+    width: 100%;
+    min-height: 240px;
+    padding: 1.25rem;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    background: #0f172a;
+    color: #e2e8f0;
+    border: none;
+    outline: none;
+    resize: vertical;
+    white-space: pre;
+    tab-size: 4;
+}
+
+.code-terminal-box {
+    background: #090d16;
+    color: #38bdf8;
+    padding: 1.25rem;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    border-top: 1px solid #1e293b;
+    max-height: 260px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+/* --- ANALYTICS HUB STYLES (analytics.html) --- */
+.analytics-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.weekly-chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-bar-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 180px;
+    padding-top: 2rem;
+    border-bottom: 2px solid var(--border);
+    gap: 0.75rem;
+}
+
+.chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.chart-bar-fill {
+    width: 100%;
+    max-width: 44px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, var(--primary), #06B6D4);
+    transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.chart-bar-fill:hover::after {
+    content: attr(data-val);
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-primary);
+    color: var(--card);
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.chart-day-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.badge-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.badge-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(79, 70, 229, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.625rem;
+    flex-shrink: 0;
+}
+
+/* --- FLASHCARDS DECK (pdf-workspace.html) --- */
+.flashcards-container {
+    margin-top: 1.5rem;
+}
+
+.flashcard-deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.flashcard-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.flashcard-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.flashcard-q {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.flashcard-a {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: none;
+}
+
+.flashcard-item.revealed .flashcard-a {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.flashcard-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* --- QUIZ HUB FILTERS (quiz.html) --- */
+.quiz-filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.quiz-filter-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quiz-filter-btn:hover, .quiz-filter-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+/* --- SETTINGS PAGE STYLES (settings.html) --- */
+.settings-section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.settings-section-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.settings-section-card p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.profile-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.avatar-large {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #8B5CF6);
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Quality-of-life fixes: consistent keyboard focus, empty states, and mobile overflow. */
+:where(button, a, input, select, textarea):focus-visible {
+    outline: 3px solid var(--primary, #6366f1);
+    outline-offset: 3px;
+}
+
+.quiz-history-empty {
+    padding: 1.25rem 1rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.quiz-history-empty::first-letter { font-size: 1em; }
+
+@media (max-width: 640px) {
+    .dashboard-content { padding-left: 1rem; padding-right: 1rem; }
+    .page-header-banner { gap: 1rem; align-items: flex-start; flex-direction: column; }
+    .quiz-filter-bar { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .quiz-grid { grid-template-columns: minmax(0, 1fr) !important; }
+    .modal-card { width: min(100% - 1rem, 42rem); max-height: calc(100dvh - 1rem); overflow-y: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
