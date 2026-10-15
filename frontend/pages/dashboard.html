@@ -24,12 +24,12 @@
         </div>
 
         <ul class="nav-links" id="sidebarNavLinks">
-            <li><a href="#welcomeSection" class="nav-link active" data-target="dashboardHome"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
-            <li><a href="#studentLearningSection" class="nav-link" data-target="studentLearning"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
-            <li><a href="#pdfLearningSection" class="nav-link" data-target="pdfLearning"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
-            <li><a href="#skillsQuizSection" class="nav-link" data-target="skillsQuiz"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
-            <li><a href="#activityAside" class="nav-link" data-target="activitySection"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
-            <li><a href="javascript:void(0)" id="navSettingsBtn" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
+            <li><a href="dashboard.html" class="nav-link active"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
+            <li><a href="courses.html" class="nav-link"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
+            <li><a href="pdf-workspace.html" class="nav-link"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
+            <li><a href="quiz.html" class="nav-link"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
+            <li><a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
+            <li><a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
         </ul>
 
         <div class="sidebar-footer">
@@ -63,6 +63,12 @@
             </div>
 
             <div class="nav-right">
+                <!-- Backend Connection Status Pill -->
+                <div class="backend-status-badge" id="backendStatusBadge" title="Backend Server Status">
+                    <span class="status-dot"></span>
+                    <span id="backendStatusText">Backend Online</span>
+                </div>
+
                 <!-- Theme Toggle Button -->
                 <button id="themeToggleBtn" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle theme">
                     <span class="theme-icon">🌙</span>
@@ -124,7 +130,7 @@
                         </div>
                         <div class="dropdown-divider"></div>
                         <ul class="dropdown-links">
-                            <li><a href="javascript:void(0)" id="profileSettingsLink"><span class="menu-ico">⚙️</span> Study Settings</a></li>
+                            <li><a href="settings.html"><span class="menu-ico">⚙️</span> Study Settings</a></li>
                             <li><a href="javascript:void(0)" id="profileThemeToggle"><span class="menu-ico">🌓</span> Switch Theme</a></li>
                         </ul>
                         <div class="dropdown-divider"></div>
@@ -638,6 +644,7 @@
     <!-- TOAST CONTAINER -->
     <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
+    <script src="../js/api.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/dashboard.js"></script>
 </body>

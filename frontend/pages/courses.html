@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses & Code Studio - AI Study Assistant</title>
+    <meta name="description" content="Interactive learning tracks and live code runner for Python, C, C++, Java, and SQL.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <div class="sidebar-header">
+            <div class="brand-side">
+                <span class="logo-icon">🧠</span>
+                <h2>Study AI</h2>
+            </div>
+            <button id="sidebarCloseBtn" class="sidebar-close-btn" aria-label="Close navigation sidebar">&times;</button>
+        </div>
+
+        <ul class="nav-links" id="sidebarNavLinks">
+            <li><a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
+            <li><a href="courses.html" class="nav-link active"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
+            <li><a href="pdf-workspace.html" class="nav-link"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
+            <li><a href="quiz.html" class="nav-link"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
+            <li><a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
+            <li><a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-quick-info">
+                <div class="avatar avatar-sm" id="sidebarAvatar">S</div>
+                <div class="user-meta">
+                    <span class="user-name" id="sidebarUserName">Student</span>
+                    <span class="user-status">🟢 Online</span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-link">
+                <span>🚪</span> <span>Sign Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- TOP NAVBAR -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar menu">
+                    <span>☰</span>
+                </button>
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="dashboardSearchInput" placeholder="Search lessons, functions, syntax..." autocomplete="off">
+                    <button id="searchClearBtn" class="search-clear-btn" style="display: none;" aria-label="Clear search">&times;</button>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <!-- Backend Connection Status Pill -->
+                <div class="backend-status-badge" id="backendStatusBadge" title="Backend Server Status">
+                    <span class="status-dot"></span>
+                    <span id="backendStatusText">API Connected</span>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="nav-icon-btn" id="notificationBtn" aria-label="View notifications">
+                        <span class="bell-icon">🔔</span>
+                        <span class="badge-dot" id="unreadBadge">3</span>
+                    </button>
+                    <div class="dropdown-menu notification-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+                        </div>
+                        <ul class="notification-list" id="notificationList"></ul>
+                    </div>
+                </div>
+
+                <!-- Profile Menu Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="profile-menu-btn" id="profileBtn" aria-label="Open profile menu">
+                        <div class="avatar" id="topNavAvatar">S</div>
+                        <span class="profile-name" id="topNavUserName">Student</span>
+                        <span class="chevron">▾</span>
+                    </button>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <div class="profile-card-header">
+                            <div class="avatar avatar-lg" id="menuAvatar">S</div>
+                            <div class="profile-details">
+                                <strong id="menuUserName">Student</strong>
+                                <span id="menuUserEmail">student@example.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <ul class="dropdown-links">
+                            <li><a href="settings.html"><span class="menu-ico">⚙️</span> Study Settings</a></li>
+                            <li><a href="javascript:void(0)" id="profileThemeToggle"><span class="menu-ico">🌓</span> Switch Theme</a></li>
+                        </ul>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer">
+                            <button id="menuLogoutBtn" class="btn btn-sm btn-outline btn-block" style="color: var(--danger); border-color: var(--danger);">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-content">
+            
+            <!-- Page Header Banner -->
+            <div class="page-header-banner">
+                <div>
+                    <h1>📚 Course Tracks & Code Studio</h1>
+                    <p>Learn core programming concepts with live code execution on the server engine.</p>
+                </div>
+                <div class="quick-action-pill">
+                    <span>⚡ <strong>Live Python 3.14 Engine</strong> Ready</span>
+                </div>
+            </div>
+
+            <!-- Code Studio Grid -->
+            <div class="code-studio-grid">
+                
+                <!-- Left: Curriculum Navigator -->
+                <aside class="curriculum-sidebar">
+                    <h4>Curriculum Tracks</h4>
+                    <ul class="module-nav-list" id="courseTrackSelector">
+                        <li class="module-nav-item active" data-course="python">
+                            <span>🐍 Python 3.12</span>
+                            <span class="badge badge-medium">64%</span>
+                        </li>
+                        <li class="module-nav-item" data-course="c">
+                            <span>⚙️ C Memory & Pointers</span>
+                            <span class="badge badge-easy">72%</span>
+                        </li>
+                        <li class="module-nav-item" data-course="cpp">
+                            <span>⚡ C++ Modern STL</span>
+                            <span class="badge badge-hard">42%</span>
+                        </li>
+                        <li class="module-nav-item" data-course="java">
+                            <span>☕ Java Collections</span>
+                            <span class="badge badge-medium">25%</span>
+                        </li>
+                        <li class="module-nav-item" data-course="sql">
+                            <span>🗄️ SQL & Databases</span>
+                            <span class="badge badge-easy">81%</span>
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                        <h5 style="font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted);">Starter Templates</h5>
+                        <select id="codeTemplateSelect" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg); color: var(--text-primary); font-size: 0.8125rem;">
+                            <option value="default">Default Lesson Example</option>
+                            <option value="custom">Blank Scratchpad</option>
+                            <option value="fibonacci">Algorithm: Fibonacci Sequence</option>
+                            <option value="quicksort">Algorithm: QuickSort / Partition</option>
+                        </select>
+                    </div>
+                </aside>
+
+                <!-- Right: Interactive Code Studio & Terminal -->
+                <div class="code-studio-main">
+                    
+                    <!-- Lesson Info Card -->
+                    <div class="section-card" style="padding: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h3 id="lessonTitle" style="font-size: 1.25rem;">Python 3.12 - Foundations & OOP</h3>
+                            <span class="badge badge-medium" id="lessonBadge">Core Track</span>
+                        </div>
+                        <p id="lessonDesc" style="color: var(--text-secondary); font-size: 0.875rem;">
+                            Master clean code, functions, list comprehensions, decorators, and object-oriented paradigms.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Code Editor Card -->
+                    <div class="code-editor-card">
+                        <div class="code-editor-toolbar">
+                            <div class="editor-lang-badge">
+                                <span id="editorLangIcon">🐍</span>
+                                <span id="editorLangName">Python 3</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(Editable Editor)</span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <button class="btn btn-secondary btn-sm" id="resetCodeBtn">↺ Reset</button>
+                                <button class="btn btn-primary btn-sm" id="runCodeStudioBtn">▶ Run Code</button>
+                            </div>
+                        </div>
+
+                        <!-- Editable Code Box -->
+                        <textarea id="codeEditorInput" class="code-textarea" spellcheck="false" autocomplete="off"></textarea>
+
+                        <!-- Terminal Output -->
+                        <div style="background: #0b1120; padding: 0.5rem 1.25rem; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.75rem; font-weight: 600; color: #94a3b8;">💻 Terminal Console Output</span>
+                            <span id="terminalStatus" style="font-size: 0.75rem; color: #10b981;">Ready</span>
+                        </div>
+                        <pre class="code-terminal-box" id="codeTerminalOutput">Click "▶ Run Code" to execute script on the backend Python engine...</pre>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Assessment Center - AI Study Assistant</title>
+    <meta name="description" content="Test your programming and computer science knowledge with timed interactive skill quizzes.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <div class="sidebar-header">
+            <div class="brand-side">
+                <span class="logo-icon">🧠</span>
+                <h2>Study AI</h2>
+            </div>
+            <button id="sidebarCloseBtn" class="sidebar-close-btn" aria-label="Close navigation sidebar">&times;</button>
+        </div>
+
+        <ul class="nav-links" id="sidebarNavLinks">
+            <li><a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
+            <li><a href="courses.html" class="nav-link"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
+            <li><a href="pdf-workspace.html" class="nav-link"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
+            <li><a href="quiz.html" class="nav-link active"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
+            <li><a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
+            <li><a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-quick-info">
+                <div class="avatar avatar-sm" id="sidebarAvatar">S</div>
+                <div class="user-meta">
+                    <span class="user-name" id="sidebarUserName">Student</span>
+                    <span class="user-status">🟢 Online</span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-link">
+                <span>🚪</span> <span>Sign Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- TOP NAVBAR -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar menu">
+                    <span>☰</span>
+                </button>
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="dashboardSearchInput" placeholder="Search quizzes, topics, tags..." autocomplete="off">
+                    <button id="searchClearBtn" class="search-clear-btn" style="display: none;" aria-label="Clear search">&times;</button>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <!-- Backend Status Badge -->
+                <div class="backend-status-badge" id="backendStatusBadge" title="Backend Server Status">
+                    <span class="status-dot"></span>
+                    <span id="backendStatusText">API Connected</span>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="nav-icon-btn" id="notificationBtn" aria-label="View notifications">
+                        <span class="bell-icon">🔔</span>
+                        <span class="badge-dot" id="unreadBadge">3</span>
+                    </button>
+                    <div class="dropdown-menu notification-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+                        </div>
+                        <ul class="notification-list" id="notificationList"></ul>
+                    </div>
+                </div>
+
+                <!-- Profile Menu Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="profile-menu-btn" id="profileBtn" aria-label="Open profile menu">
+                        <div class="avatar" id="topNavAvatar">S</div>
+                        <span class="profile-name" id="topNavUserName">Student</span>
+                        <span class="chevron">▾</span>
+                    </button>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <div class="profile-card-header">
+                            <div class="avatar avatar-lg" id="menuAvatar">S</div>
+                            <div class="profile-details">
+                                <strong id="menuUserName">Student</strong>
+                                <span id="menuUserEmail">student@example.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <ul class="dropdown-links">
+                            <li><a href="settings.html"><span class="menu-ico">⚙️</span> Study Settings</a></li>
+                            <li><a href="javascript:void(0)" id="profileThemeToggle"><span class="menu-ico">🌓</span> Switch Theme</a></li>
+                        </ul>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer">
+                            <button id="menuLogoutBtn" class="btn btn-sm btn-outline btn-block" style="color: var(--danger); border-color: var(--danger);">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-content">
+            
+            <!-- Page Header Banner -->
+            <div class="page-header-banner">
+                <div>
+                    <h1>📝 Skills Assessment Center</h1>
+                    <p>Challenge yourself with timed technical assessments, evaluate accuracy, and climb skill tiers.</p>
+                </div>
+                <div class="quick-action-pill">
+                    <span>🏆 <strong>Server-Verified Scoring</strong> Enabled</span>
+                </div>
+            </div>
+
+            <!-- Quiz Topic Filter Pills -->
+            <div class="quiz-filter-bar" id="quizFilterBar">
+                <button class="quiz-filter-btn active" data-filter="all">All Quizzes</button>
+                <button class="quiz-filter-btn" data-filter="easy">Easy</button>
+                <button class="quiz-filter-btn" data-filter="medium">Medium</button>
+                <button class="quiz-filter-btn" data-filter="hard">Hard</button>
+            </div>
+
+            <!-- Quiz Cards Grid -->
+            <div class="quiz-grid" id="quizCardsGrid" style="margin-bottom: 2.5rem;">
+                <!-- Python Quiz Card -->
+                <div class="quiz-card" data-diff="medium" data-search="python quiz programming variables functions decorators">
+                    <div class="quiz-card-top">
+                        <span class="badge badge-medium">Medium</span>
+                        <span class="quiz-icon">🐍</span>
+                    </div>
+                    <h4>Python Core & OOP Quiz</h4>
+                    <p class="quiz-desc">Functions, lambda expressions, decorators, slicing, and memory referencing.</p>
+                    <div class="quiz-meta">
+                        <span>📋 5 Questions</span>
+                        <span>⏱️ 2 Mins</span>
+                        <span>🏆 Best: <strong>82%</strong></span>
+                    </div>
+                    <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="python">
+                        Start Python Assessment
+                    </button>
+                </div>
+
+                <!-- C++ Quiz Card -->
+                <div class="quiz-card" data-diff="hard" data-search="c++ cpp quiz pointers memory classes stl templates">
+                    <div class="quiz-card-top">
+                        <span class="badge badge-hard">Hard</span>
+                        <span class="quiz-icon">⚡</span>
+                    </div>
+                    <h4>C++ OOP & Memory Management</h4>
+                    <p class="quiz-desc">Smart pointers, templates, destructors, RAII pattern, and STL containers.</p>
+                    <div class="quiz-meta">
+                        <span>📋 5 Questions</span>
+                        <span>⏱️ 2 Mins</span>
+                        <span>🏆 Best: <strong>60%</strong></span>
+                    </div>
+                    <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="cpp">
+                        Start C++ Assessment
+                    </button>
+                </div>
+
+                <!-- SQL Quiz Card -->
+                <div class="quiz-card" data-diff="easy" data-search="sql database queries joins subqueries indexing acid">
+                    <div class="quiz-card-top">
+                        <span class="badge badge-easy">Easy</span>
+                        <span class="quiz-icon">🗄️</span>
+                    </div>
+                    <h4>SQL & Relational Databases</h4>
+                    <p class="quiz-desc">JOIN types, GROUP BY, HAVING, subqueries, B-Tree indexes, and ACID.</p>
+                    <div class="quiz-meta">
+                        <span>📋 5 Questions</span>
+                        <span>⏱️ 2 Mins</span>
+                        <span>🏆 Best: <strong>95%</strong></span>
+                    </div>
+                    <button class="btn btn-primary btn-block start-quiz-trigger" data-topic="sql">
+                        Start SQL Assessment
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Performance History Table -->
+            <section class="section-card">
+                <div class="section-header-flex">
+                    <div>
+                        <div class="tag-badge">Score Log</div>
+                        <h3>Recent Assessment History</h3>
+                        <p>Track your score progression over time.</p>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto; margin-top: 1rem;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.875rem;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--border); color: var(--text-secondary);">
+                                <th style="padding: 0.75rem 1rem;">Topic</th>
+                                <th style="padding: 0.75rem 1rem;">Score</th>
+                                <th style="padding: 0.75rem 1rem;">Accuracy</th>
+                                <th style="padding: 0.75rem 1rem;">Time Spent</th>
+                                <th style="padding: 0.75rem 1rem;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quizHistoryTableBody">
+                            <tr><td colspan="5" class="quiz-history-empty">Loading your quiz history…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- LIVE QUIZ ENGINE MODAL -->
+    <div id="quizModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="quiz-header-info">
+                    <h3 id="quizModalTitle">📝 Skills Assessment</h3>
+                    <span class="quiz-timer-pill" id="quizTimer">⏱️ 02:00</span>
+                </div>
+                <button class="modal-close" id="closeQuizModal" aria-label="Close quiz">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="quizModalBody">
+                <!-- Question View -->
+                <div id="quizQuestionView">
+                    <div class="quiz-meta-bar">
+                        <span id="quizQuestionCounter">Question 1 of 5</span>
+                        <span class="badge badge-medium" id="quizTopicBadge">Python</span>
+                    </div>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quizProgressFill" style="width: 20%;"></div>
+                    </div>
+
+                    <h4 class="quiz-question-text" id="quizQuestionText">Loading question...</h4>
+
+                    <div class="quiz-options-container" id="quizOptionsContainer"></div>
+
+                    <div id="quizFeedbackBox" class="quiz-feedback-box" style="display: none;"></div>
+                </div>
+
+                <!-- Results View -->
+                <div id="quizResultsView" style="display: none;" class="quiz-results-container">
+                    <div class="results-score-circle">
+                        <span class="score-number" id="resultScorePct">100%</span>
+                        <span class="score-label" id="resultScoreFraction">5 / 5 Correct</span>
+                    </div>
+                    <h3 id="resultTitle">Great Job! 🎉</h3>
+                    <p id="resultFeedbackText">You demonstrated solid understanding of this topic.</p>
+                    <div class="results-stats-row">
+                        <div class="result-stat-box">
+                            <span>Accuracy</span>
+                            <strong id="resultAccuracy">100%</strong>
+                        </div>
+                        <div class="result-stat-box">
+                            <span>Time Taken</span>
+                            <strong id="resultTimeTaken">38s</strong>
+                        </div>
+                        <div class="result-stat-box">
+                            <span>Streak</span>
+                            <strong>+1 Day ⚡</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="quizModalFooter">
+                <button type="button" class="btn btn-secondary" id="quitQuizBtn">Quit</button>
+                <button type="button" class="btn btn-primary" id="quizNextBtn" disabled>Next Question →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

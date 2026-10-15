@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Document Study Hub - AI Study Assistant</title>
+    <meta name="description" content="AI-powered PDF and document study hub with automated summaries, flashcards, and semantic Q&A.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <div class="sidebar-header">
+            <div class="brand-side">
+                <span class="logo-icon">🧠</span>
+                <h2>Study AI</h2>
+            </div>
+            <button id="sidebarCloseBtn" class="sidebar-close-btn" aria-label="Close navigation sidebar">&times;</button>
+        </div>
+
+        <ul class="nav-links" id="sidebarNavLinks">
+            <li><a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> <span>Dashboard</span></a></li>
+            <li><a href="courses.html" class="nav-link"><span class="nav-icon">📚</span> <span>Student Learning</span></a></li>
+            <li><a href="pdf-workspace.html" class="nav-link active"><span class="nav-icon">📄</span> <span>PDF Learning</span></a></li>
+            <li><a href="quiz.html" class="nav-link"><span class="nav-icon">📝</span> <span>Skills Quiz</span></a></li>
+            <li><a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> <span>Progress & History</span></a></li>
+            <li><a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span> <span>Settings</span></a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-quick-info">
+                <div class="avatar avatar-sm" id="sidebarAvatar">S</div>
+                <div class="user-meta">
+                    <span class="user-name" id="sidebarUserName">Student</span>
+                    <span class="user-status">🟢 Online</span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-link">
+                <span>🚪</span> <span>Sign Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- TOP NAVBAR -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar menu">
+                    <span>☰</span>
+                </button>
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="dashboardSearchInput" placeholder="Search concepts, formulas, definitions..." autocomplete="off">
+                    <button id="searchClearBtn" class="search-clear-btn" style="display: none;" aria-label="Clear search">&times;</button>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <!-- Backend Status Badge -->
+                <div class="backend-status-badge" id="backendStatusBadge" title="Backend Server Status">
+                    <span class="status-dot"></span>
+                    <span id="backendStatusText">API Connected</span>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" title="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="nav-icon-btn" id="notificationBtn" aria-label="View notifications">
+                        <span class="bell-icon">🔔</span>
+                        <span class="badge-dot" id="unreadBadge">3</span>
+                    </button>
+                    <div class="dropdown-menu notification-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+                        </div>
+                        <ul class="notification-list" id="notificationList"></ul>
+                    </div>
+                </div>
+
+                <!-- Profile Menu Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button class="profile-menu-btn" id="profileBtn" aria-label="Open profile menu">
+                        <div class="avatar" id="topNavAvatar">S</div>
+                        <span class="profile-name" id="topNavUserName">Student</span>
+                        <span class="chevron">▾</span>
+                    </button>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <div class="profile-card-header">
+                            <div class="avatar avatar-lg" id="menuAvatar">S</div>
+                            <div class="profile-details">
+                                <strong id="menuUserName">Student</strong>
+                                <span id="menuUserEmail">student@example.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <ul class="dropdown-links">
+                            <li><a href="settings.html"><span class="menu-ico">⚙️</span> Study Settings</a></li>
+                            <li><a href="javascript:void(0)" id="profileThemeToggle"><span class="menu-ico">🌓</span> Switch Theme</a></li>
+                        </ul>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer">
+                            <button id="menuLogoutBtn" class="btn btn-sm btn-outline btn-block" style="color: var(--danger); border-color: var(--danger);">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-content">
+            
+            <!-- Page Header Banner -->
+            <div class="page-header-banner">
+                <div>
+                    <h1>📄 AI Document Study Hub</h1>
+                    <p>Upload lecture slides or notes to get semantic summaries, instant Q&A, and auto-generated flashcards.</p>
+                </div>
+                <div class="quick-action-pill">
+                    <span>🤖 <strong>AI Study Assistant</strong> Indexed & Ready</span>
+                </div>
+            </div>
+
+            <!-- Active Document Switcher Bar -->
+            <div class="recent-docs-bar" style="margin-bottom: 1.5rem;">
+                <span class="docs-label">Active Document:</span>
+                <div class="doc-chips" id="docChipsList">
+                    <button class="doc-chip active" data-doc="dbms">📄 DBMS_Unit_1_Notes.pdf</button>
+                    <button class="doc-chip" data-doc="ds">📄 Data_Structures_Guide.pdf</button>
+                    <button class="doc-chip" data-doc="python">📄 Python_Advanced_Cheatsheet.pdf</button>
+                </div>
+            </div>
+
+            <!-- Main PDF Workspace Layout -->
+            <div class="pdf-workspace-layout" style="min-height: 520px; margin-bottom: 2rem;">
+                
+                <!-- Left: Document Context & Insights -->
+                <div class="pdf-doc-panel">
+                    <div class="pdf-uploader-box" id="pdfDropZone">
+                        <span class="upload-icon">📁</span>
+                        <p><strong>Click or Drag & Drop PDF</strong></p>
+                        <small>Supported: .pdf, .docx, .txt (Max 25MB)</small>
+                        <input type="file" id="pdfFileInput" accept=".pdf,.txt,.docx" style="display: none;">
+                    </div>
+
+                    <div class="doc-summary-box">
+                        <h4>📌 Key Concepts Summary</h4>
+                        <ul class="summary-bullets" id="docSummaryBullets">
+                            <li><strong>ACID Properties:</strong> Atomicity, Consistency, Isolation, Durability for reliable transactions.</li>
+                            <li><strong>Normalization:</strong> 1NF, 2NF, 3NF, and BCNF to eliminate redundancy and update anomalies.</li>
+                            <li><strong>B+ Trees:</strong> High fan-out balanced tree indexing structure minimizing expensive disk I/O.</li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-prompt-tags">
+                        <span class="prompt-tag-label">Instant AI Actions:</span>
+                        <button class="prompt-chip" data-query="Explain ACID properties with an ATM banking transaction example">💡 Explain ACID with real example</button>
+                        <button class="prompt-chip" data-query="Summarize B+ Tree indexing in 3 bullet points">⚡ Summarize B+ Trees</button>
+                        <button class="prompt-chip" data-query="What are the normal forms 1NF to BCNF?">📐 Explain Normalization</button>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive AI Study Chat -->
+                <div class="pdf-chat-panel" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div class="chat-messages" id="pdfChatMessages" style="max-height: 420px; overflow-y: auto;">
+                        <div class="chat-msg ai-msg">
+                            <div class="msg-avatar">🤖</div>
+                            <div class="msg-content">
+                                <p>Hello! I have indexed <strong>DBMS_Unit_1_Notes.pdf</strong> (34 pages). Ask me any technical question, request code examples, or generate flashcards!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="chat-input-row" id="pdfChatForm" style="margin-top: 1rem;">
+                        <input type="text" id="pdfChatInput" placeholder="Ask AI about this document or concepts..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary" id="pdfSendBtn">Ask AI</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Auto-Generated Flashcards Section -->
+            <section class="section-card">
+                <div class="section-header-flex">
+                    <div>
+                        <div class="tag-badge">AI Flashcards</div>
+                        <h3>Interactive Concept Flashcards</h3>
+                        <p>Click any card to reveal the answer and test your recall.</p>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" id="refreshFlashcardsBtn">⚡ Regenerate Cards</button>
+                </div>
+
+                <div class="flashcard-deck" id="flashcardDeck">
+                    <div class="flashcard-item">
+                        <span class="flashcard-hint">💡 Tap to reveal answer</span>
+                        <div class="flashcard-q">What is the normal form that removes transitive dependencies?</div>
+                        <div class="flashcard-a"><strong>Answer:</strong> 3NF (Third Normal Form) removes non-key column dependencies.</div>
+                    </div>
+                    <div class="flashcard-item">
+                        <span class="flashcard-hint">💡 Tap to reveal answer</span>
+                        <div class="flashcard-q">Why do relational database engines utilize B+ trees instead of standard binary trees?</div>
+                        <div class="flashcard-a"><strong>Answer:</strong> High branching factor (fan-out) minimizes expensive disk seek and I/O operations.</div>
+                    </div>
+                    <div class="flashcard-item">
+                        <span class="flashcard-hint">💡 Tap to reveal answer</span>
+                        <div class="flashcard-q">What does the 'Durability' property in ACID guarantee?</div>
+                        <div class="flashcard-a"><strong>Answer:</strong> Once committed, transaction results survive system crashes and power outages.</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
